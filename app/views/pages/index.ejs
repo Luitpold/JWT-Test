@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1><%=title%></h1>
+    <form action="/setup" method="post">
+      Vorname: <input type="text" name="vorname" value="Max"><br>
+      Name: <input type="text" name="name" value="Mustermann"><br>
+      E-Mail: <input type="text" name="mail" value="max@muster.de"><br>
+      Passwort: <input type="password" name="password" value="****"><br>
+      <input type="submit" value="Abschicken">
+    </form>
+    <form action="/api/authenticate" method="post">
+      Name: <input type="text" name="name" value="Mustermann"><br>
+      Passwort: <input type="password" name="password" value="****"><br>
+      <input type="submit" value="Abschicken">
+    </form>
+
+  </body>
+</html>
