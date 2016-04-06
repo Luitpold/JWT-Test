@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Luitpold/JWT-Test#readme",
   "dependencies": {
+    "angular": "^1.5.3",
     "body-parser": "^1.15.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",

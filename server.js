@@ -1,3 +1,9 @@
+var fs = require('fs');
+var http = require('http');
+var https = require('https');
+var privateKey  = fs.readFileSync('sslcert/key.pem', 'utf8');
+var certificate = fs.readFileSync('sslcert/cert.pem', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
 var express     = require('express');
 var app         = express();
 var bodyParser  = require('body-parser');
@@ -17,12 +23,15 @@ mongoose.connect(config.database); // connect to database
 app.set('superSecret', config.secret); // secret variable
 app.set("view engine","ejs");
 app.set("views",__dirname+"/app/views");
-
+app.use("/app",express.static("app"));
+app.use("/node_modules",express.static("node_modules"));
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+httpServer.listen(80);
+httpsServer.listen(443);
 // use morgan to log requests to the console
 app.use(morgan('dev'));
 
@@ -59,6 +68,7 @@ app.post('/setup', function(req, res) {
 var apiRoutes = express.Router();
 
 apiRoutes.post('/authenticate', function(req, res) {
+  console.log(req.body.name);
   // find the user
   User.findOne({
     name: req.body.name
@@ -143,5 +153,5 @@ app.use('/api', apiRoutes);
 // =======================
 // start the server ======
 // =======================
-app.listen(port);
-console.log('Magic happens at http://localhost:' + port);
+// app.listen(port);
+console.log('Magic happens at http://localhost:' + 443);
